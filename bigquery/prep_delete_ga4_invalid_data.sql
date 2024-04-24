@@ -1,7 +1,7 @@
 
 ---- PREP STEPS ----
 -- step 1
---CREATE TABLE `3144_test_22apr2024.session_data_to_delete` AS
+CREATE TABLE `3144_test_22apr2024.session_data_to_delete` AS
 SELECT
   events.*  -- Use wildcard to capture all columns for schema
 FROM
@@ -10,7 +10,7 @@ WHERE
   1 = 0;  
 
 -- step 2
---CREATE TABLE `tr-ga4.3144_test_22apr2024.session_deletion_candidates` AS
+CREATE TABLE `tr-ga4.3144_test_22apr2024.session_deletion_candidates` AS
 SELECT 
   user_pseudo_id,
   (
