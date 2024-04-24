@@ -1,16 +1,17 @@
 
 ---- PREP STEPS ----
+
 -- step 1
-CREATE TABLE `3144_test_22apr2024.session_data_to_delete` AS
+CREATE TABLE `analytics_314488492.session_data_to_delete` AS
 SELECT
   events.*  -- Use wildcard to capture all columns for schema
 FROM
-  `tr-ga4.3144_test_22apr2024.events_*` AS events
+  `tr-ga4.analytics_314488492.events_*` AS events
 WHERE
   1 = 0;  
 
 -- step 2
-CREATE TABLE `tr-ga4.3144_test_22apr2024.session_deletion_candidates` AS
+CREATE TABLE `tr-ga4.analytics_314488492.session_deletion_candidates` AS
 SELECT 
   user_pseudo_id,
   (
@@ -22,7 +23,7 @@ SELECT
       KEY = 'ga_session_id'
   ) AS ga_session_id
 FROM
-  `tr-ga4.3144_test_22apr2024.events_*`
+  `tr-ga4.analytics_314488492.events_*`
 WHERE
   ( _TABLE_SUFFIX BETWEEN '20240401' AND '20240416'
     OR _TABLE_SUFFIX BETWEEN 'intraday_20240401' AND 'intraday_20240416' )
@@ -34,13 +35,13 @@ HAVING
 
 
 -- step 3
-INSERT INTO `3144_test_22apr2024.session_data_to_delete`
+INSERT INTO `analytics_314488492.session_data_to_delete`
 SELECT
   events.*
 FROM
-  `tr-ga4.3144_test_22apr2024.events_*` AS events
+  `tr-ga4.analytics_314488492.events_*` AS events
 JOIN
-  `tr-ga4.3144_test_22apr2024.session_deletion_candidates` as high_count_sessions
+  `tr-ga4.analytics_314488492.session_deletion_candidates` as high_count_sessions
 ON
   events.user_pseudo_id = high_count_sessions.user_pseudo_id
   AND
@@ -69,7 +70,7 @@ SELECT
     WHERE
       KEY = 'ga_session_id' )  AS session_id 
 FROM
-    `tr-ga4.3144_test_22apr2024.session_data_to_delete`
+    `tr-ga4.analytics_314488492.session_data_to_delete`
 GROUP BY
   user_pseudo_id,
   session_id
