@@ -1,5 +1,6 @@
 
 ---- PREP STEPS ----
+
 -- step 1
 CREATE TABLE `analytics_314488492.session_data_to_delete` AS
 SELECT
