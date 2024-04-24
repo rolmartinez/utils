@@ -3,7 +3,7 @@ DECLARE tables_to_delete ARRAY<STRING>;
 -- Step 1: Retrieve Table Names
 SET tables_to_delete = (
   SELECT ARRAY_AGG(table_id)
-  FROM `tr-ga4.3144_test_22apr2024.__TABLES_SUMMARY__`
+  FROM `tr-ga4.analytics_314488492.__TABLES_SUMMARY__`
   WHERE table_id LIKE 'events_%'
     AND (
       (table_id BETWEEN 'events_20240401' AND 'events_20240416')
@@ -18,10 +18,10 @@ SELECT * FROM UNNEST(tables_to_delete);
 FOR table_name IN (SELECT * FROM UNNEST(tables_to_delete) tbl_name) DO
   EXECUTE IMMEDIATE FORMAT(
     """
-    DELETE FROM `3144_test_22apr2024.%s`
+    DELETE FROM `analytics_314488492.%s`
     WHERE user_pseudo_id IN (
       SELECT user_pseudo_id
-      FROM `tr-ga4.3144_test_22apr2024.session_deletion_candidates`
+      FROM `tr-ga4.analytics_314488492.session_deletion_candidates`
     )
     """,
     table_name.tbl_name
